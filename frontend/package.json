@@ -27,8 +27,7 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest",
-      "shared-config"
+      "react-app/jest"
     ],
     "rules": {
       "additional-rule": "warn"
