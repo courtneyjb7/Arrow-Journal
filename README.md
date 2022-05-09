@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 ## How To Set Up Prettier Locally
 
-Install the ESLint and Prettier ESLint VSCode extensions.
+Install the Prettier ESLint VSCode extensions.
 
 Run the following command in the frontend and backend directories:
 
