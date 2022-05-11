@@ -1,4 +1,9 @@
 const express = require("express");
+const mongoose = require("mongoose");
+
+// Add mongdb user services
+const entryServices = require("./models/entries-services");
+
 const app = express();
 const port = 5000;
 const cors = require("cors");
