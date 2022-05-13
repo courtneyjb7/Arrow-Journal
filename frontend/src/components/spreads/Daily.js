@@ -12,7 +12,7 @@ function Daily(props) {
   const location = useLocation();
 
   return (
-    <Journal></Journal>
+    <Journal date={location.state.date}></Journal>
   );
 }
 
