@@ -12,19 +12,17 @@ function App() {
   return (
     <ChakraProvider>
       <Box>
-      <Router>
-          <Routes>
-          <Route exact path="/" element={<StartPage />} />
-            <Route path="/monthly" element={<Monthly />} />
-            <Route path="/daily" element={<Daily />} />
-            <Route path="/sign-up" element={<SignUp/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/profile" element={<Profile name='BJ Klingenberg' email='bklingen@calpoly.edu' />}/>
-          
-           
-          </Routes>
+        <Router>
+            <Routes>
+            <Route exact path="/" element={<StartPage />} />
+              <Route path="/monthly" element={<Monthly />} />
+              <Route path="/daily" element={<Daily />} />
+              <Route path="/sign-up" element={<SignUp/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/profile" element={<Profile name='BJ Klingenberg' email='bklingen@calpoly.edu' />}/>
+            </Routes>
         </Router>
-        </Box>
+      </Box>
     </ChakraProvider>
   );
 }
