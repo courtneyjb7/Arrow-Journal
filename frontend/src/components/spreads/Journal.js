@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import JournalEntry from "./JournalEntry";
 
 
-function Journal() {
+function Journal(props) {
   const [entries, setEntries] = useState([]);
 
   function updateList(entry) {
@@ -14,7 +14,7 @@ function Journal() {
   return (
     <div className="container">
       
-      <JournalEntry handleSubmit={updateList} titles={personalPromptTitles} placeholders={personalPromptPlaceholders}/>
+      <JournalEntry date={props.date} handleSubmit={updateList} titles={personalPromptTitles} placeholders={personalPromptPlaceholders}/>
     </div>
   );
 }

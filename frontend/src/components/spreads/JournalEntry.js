@@ -53,7 +53,7 @@ function JournalEntry(props) {
     "December",
   ];
 
-  var today = new Date();
+  var today = props.date;
   var dd = String(today.getDate()).padStart(2, "0");
   var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var day = days[today.getDay()];
