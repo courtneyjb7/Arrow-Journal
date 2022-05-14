@@ -52,9 +52,13 @@ function SignUp() {
                 setformatErrorMessage(removeFirstWord(errorMessage));
               }); 
         }
-        
-
     }
+
+    function back(){
+      navigate("/");
+    }
+
+  
   return (
     <ChakraProvider>
         
@@ -82,7 +86,7 @@ function SignUp() {
                 <PasswordInput pw={pw} setPw={setPw} pwEmpty={pwEmpty} formatErrorMessage={formatErrorMessage}></PasswordInput>
                 <Button color='white' bg='#6A877F' w='100px' type='submit' onClick={() => submit()}>sign up</Button>
             </Stack>
-            <Button color='white' bg='#6A877F' w='100px' right='50px' >back</Button>
+            <Button color='white' bg='#6A877F' w='100px' right='50px' onClick={() => back()}>back</Button>
           </Stack>
 
         </header>

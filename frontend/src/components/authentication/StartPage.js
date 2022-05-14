@@ -1,7 +1,18 @@
 import React from "react";
 import { Box, Button, Stack, Text, Image } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 function StartPage() {
+
+    let navigate = useNavigate();
+
+    function navigateToLogin(){
+        navigate("/login");
+    }
+
+    function navigateToSignUp(){
+        navigate("/sign-up");
+    }
 
     return (
         <Box> 
@@ -23,7 +34,7 @@ function StartPage() {
                     width="600px"
                     height="80px"
                     fontSize="25px"
-                    > Log In </Button>
+                    onClick={navigateToLogin}> Log In </Button>
 
                 </Stack>
 
@@ -36,7 +47,7 @@ function StartPage() {
                     width="600px"
                     height="80px"
                     fontSize="25px"
-                    > Sign Up </Button>
+                    onClick={navigateToSignUp}> Sign Up </Button>
 
                 </Stack>
 
