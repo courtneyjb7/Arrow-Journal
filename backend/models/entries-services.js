@@ -8,7 +8,6 @@ mongoose.set("debug", true);
 
 mongoose
   .connect(
-
     "mongodb+srv://" +
       process.env.MONGO_USER +
       ":" +
