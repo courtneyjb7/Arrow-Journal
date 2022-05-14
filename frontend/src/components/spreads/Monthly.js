@@ -127,7 +127,7 @@ function WelcomeMessage() {
 
   return (
     <Heading className="welcome">
-      Hi, BJ! Today is {days[today.getDay()]}, {months[today.getMonth()]}{" "}
+      Hi, BJ Klingenberg! Today is {days[today.getDay()]}, {months[today.getMonth()]}{" "}
       {today.getDate()} {today.getFullYear()}.
     </Heading>
   );
