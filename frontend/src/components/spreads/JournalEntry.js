@@ -2,21 +2,17 @@ import React from "react";
 import { useState } from "react";
 
 import {
-  FormErrorMessage,
   FormLabel,
   FormControl,
-  Input,
   Button,
   IconButton,
   Textarea,
   Flex,
   Spacer,
   Box,
-  HStack,
   Grid,
   Heading,
   AlertDialog,
-  AlertDialogBody,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogContent,
@@ -25,7 +21,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-import { FiMenu } from "react-icons/fi";
 import { CloseIcon } from "@chakra-ui/icons";
 
 function JournalEntry(props) {
