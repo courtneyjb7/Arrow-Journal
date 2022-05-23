@@ -18,7 +18,7 @@ import {
   Editable,
   EditableInput,
   EditablePreview,
-  Input
+  Input,
 } from "@chakra-ui/react";
 import { CheckIcon, EditIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -127,8 +127,8 @@ function WelcomeMessage() {
 
   return (
     <Heading className="welcome">
-      Hi, BJ Klingenberg! Today is {days[today.getDay()]}, {months[today.getMonth()]}{" "}
-      {today.getDate()} {today.getFullYear()}.
+      Hi, BJ Klingenberg! Today is {days[today.getDay()]},{" "}
+      {months[today.getMonth()]} {today.getDate()} {today.getFullYear()}.
     </Heading>
   );
 }
@@ -194,10 +194,10 @@ function BrainDumpForm(props) {
 
 function BrainDump(props) {
   // const {
-    // isEditing,
-    // getSubmitButtonProps,
-    // getCancelButtonProps,
-    // getEditButtonProps,
+  // isEditing,
+  // getSubmitButtonProps,
+  // getCancelButtonProps,
+  // getEditButtonProps,
   // } = useEditableControls();
   const isEditing = false;
 

@@ -47,7 +47,10 @@ export default function Sidebar() {
             >
               Amazing
             </MenuItem>
-            <MenuItem background="teal" onClick={() => setMood(["teal", "Good"])}>
+            <MenuItem
+              background="teal"
+              onClick={() => setMood(["teal", "Good"])}
+            >
               Good
             </MenuItem>
             <MenuItem
@@ -62,8 +65,8 @@ export default function Sidebar() {
           </MenuList>
         </Menu>
 
-        <NavItem icon={<AddIcon/>} title="Add Page" />
-        <NavItem icon={<AddIcon/>} title="Add Tags" />
+        <NavItem icon={<AddIcon />} title="Add Page" />
+        <NavItem icon={<AddIcon />} title="Add Tags" />
       </Flex>
 
       <Flex p="5%" flexDir="column" w="100%" alignItems={"flex-start"} mb={4}>

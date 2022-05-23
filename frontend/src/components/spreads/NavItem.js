@@ -10,14 +10,9 @@ import {
 } from "@chakra-ui/react";
 import NavHoverBox from "./NavHoverBox";
 
-export default function NavItem({ icon, title, description, active}) {
+export default function NavItem({ icon, title, description, active }) {
   return (
-    <Flex
-      mt={30}
-      flexDir="column"
-      w="100%"
-      alignItems={"flex-start"}
-    >
+    <Flex mt={30} flexDir="column" w="100%" alignItems={"flex-start"}>
       <Menu placement="right">
         <Link
           backgroundColor={active && "#AEC8CA"}
@@ -28,11 +23,7 @@ export default function NavItem({ icon, title, description, active}) {
         >
           <MenuButton w="100%">
             <Flex>
-              <Icon
-                as={icon}
-                fontSize="xl"
-                color={ "#82AAAD"}
-              />
+              <Icon as={icon} fontSize="xl" color={"#82AAAD"} />
               <Text ml={5} display={"flex"}>
                 {title}
               </Text>
