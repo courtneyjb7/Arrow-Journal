@@ -16,14 +16,26 @@ import {
   ButtonGroup,
   IconButton,
   Editable,
-  EditableInput,
   EditablePreview,
   Input,
+  Tbody,
+  useEditableControls,
+  EditableTextarea,
+  Image,
 } from "@chakra-ui/react";
-import { CheckIcon, EditIcon, DeleteIcon, CloseIcon } from "@chakra-ui/icons";
+
+import { CheckIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 
 function Monthly() {
   const [dumps, setDumps] = useState([]);
+
+  function editOneDump(index, dumpToUpdate) {
+    const updatedDump = makePutCall(dumps[index], dumpToUpdate);
+    const updated = dumps;
+    updated[index] = updatedDump;
+
+    setDumps(updated);
+  }
 
   function removeOneDump(index) {
     makeDeleteCall(dumps[index]);
@@ -33,6 +45,29 @@ function Monthly() {
     });
 
     setDumps(updated);
+  }
+
+  async function makePostCall(dump) {
+    try {
+      const response = await axios.post("http://localhost:5000/dumps", dump);
+      return response;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async function makePutCall(dump, dumpToUpdate) {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/dumps/${dump.id}`,
+        dumpToUpdate
+      );
+      return response;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
   async function makeDeleteCall(dump) {
@@ -49,6 +84,7 @@ function Monthly() {
 
   function updateBrainDump(dump) {
     makePostCall(dump).then((result) => {
+      console.log(result);
       if (result && result.status === 201) {
         setDumps([...dumps, result.data]);
       }
@@ -73,24 +109,19 @@ function Monthly() {
     });
   }, []);
 
-  async function makePostCall(dump) {
-    try {
-      const response = await axios.post("http://localhost:5000/dumps", dump);
-      return response;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
   return (
     <VStack className="monthly">
-      <WelcomeMessage />
+      <Image className="logo" src="Arrow.png" alt="Arrow Journal" />
+      <WelcomeMessage className="welcome" />
       <HStack className="body">
         <MonthlyCalendar />
         <VStack className="brainDump">
           <BrainDumpForm handleSave={updateBrainDump} />
-          <BrainDump dumpData={dumps} removeDump={removeOneDump} />
+          <BrainDump
+            dumpData={dumps}
+            handleSave={editOneDump}
+            removeDump={removeOneDump}
+          />
         </VStack>
       </HStack>
     </VStack>
@@ -138,7 +169,6 @@ function MonthlyCalendar() {
   const navigate = useNavigate();
 
   function routeToDaily(props) {
-    console.log(props);
     navigate("/daily", { state: { date: props } });
   }
 
@@ -193,57 +223,92 @@ function BrainDumpForm(props) {
 }
 
 function BrainDump(props) {
-  // const {
-  // isEditing,
-  // getSubmitButtonProps,
-  // getCancelButtonProps,
-  // getEditButtonProps,
-  // } = useEditableControls();
-  const isEditing = false;
+  const [dump, setDump] = useState({
+    content: "",
+  });
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    if (name === "content") {
+      setDump({ content: value });
+    }
+  }
+
+  function EditableControls(props) {
+    const { isEditing, getSubmitButtonProps, getEditButtonProps } =
+      useEditableControls();
+
+    return isEditing ? (
+      <ButtonGroup justifyContent="center" size="sm">
+        <IconButton
+          icon={<CheckIcon />}
+          {...getSubmitButtonProps()}
+          aria-label="save edit"
+        />
+      </ButtonGroup>
+    ) : (
+      <ButtonGroup justifyContent="center" size="sm">
+        <IconButton
+          size="sm"
+          icon={<EditIcon />}
+          {...getEditButtonProps()}
+          aria-label="edit dump"
+        />
+        <IconButton
+          icon={<DeleteIcon />}
+          onClick={() => props.removeDump(props.index)}
+          aria-label="delete dump"
+        />
+      </ButtonGroup>
+    );
+  }
+
+  function saveDump(hs, idx) {
+    if (!(dump.content === "")) {
+      hs(idx, dump);
+      setDump({ content: "" });
+    }
+  }
+
+  function restoreDump() {
+    if (!(dump.content === "")) {
+      setDump({ content: "" });
+    }
+  }
 
   const rows = props.dumpData.map((row, index) => {
-    return isEditing ? (
+    return (
       <Tr key={index}>
         <Td>
-          <Editable defaultValue={row.content} isPreviewFocusable={false}>
+          <Editable
+            defaultValue={row.content}
+            isPreviewFocusable={false}
+            onSubmit={() => saveDump(props.handleSave, index)}
+            onCancel={() => restoreDump()}
+          >
             <EditablePreview />
-            <Input as={EditableInput} />
-          </Editable>
-        </Td>
-        <Td isNumeric>
-          <ButtonGroup justifyContent="center" size="sm">
-            <IconButton icon={<CheckIcon />} />
-            <IconButton icon={<CloseIcon />} />
-          </ButtonGroup>
-        </Td>
-      </Tr>
-    ) : (
-      <Tr key={index}>
-        <Td>
-          <Editable defaultValue={row.content} isPreviewFocusable={false}>
-            <EditablePreview />
-            <Input as={EditableInput} />
-          </Editable>
-        </Td>
-        <Td isNumeric>
-          <ButtonGroup justifyContent="center" size="sm">
-            <IconButton
-              className="edit"
-              aria-label="edit dump"
-              icon={<EditIcon />}
+            <Input
+              as={EditableTextarea}
+              type="text"
+              name="content"
+              id="content"
+              value={dump.content}
+              variant="outline"
+              onChange={handleChange}
             />
-            <IconButton
-              className="delete"
-              aria-label="delete dump"
-              icon={<DeleteIcon />}
-              onClick={() => props.removeDump(index)}
-            />
-          </ButtonGroup>
+            <br />
+            <EditableControls removeDump={props.removeDump} index={index} />
+          </Editable>
         </Td>
       </Tr>
     );
   });
-  return <Table>{rows}</Table>;
+  return (
+    <Table>
+      <Tbody>{rows}</Tbody>
+    </Table>
+  );
 }
 
 export default Monthly;

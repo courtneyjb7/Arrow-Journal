@@ -2,7 +2,6 @@
   padding-top: 50px;
   padding-bottom: 50px;
   padding-left: 80px;
-  background-color: rgba(217, 205, 151, 1);
 }
 
 .body {
@@ -25,17 +24,30 @@ form {
   width: 40%;
 }
 
-.react-calendar__navigation {
-  font-size: 24px;
-  margin: auto;
-  width: 100%;
-  text-align: left;
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .react-calendar,
+  .form {
+    width: 100%;
+  }
+}
+
+.react-calendar__navigation__arrow {
+  padding: 5%;
+  font-size: larger;
+}
+
+.react-calendar__navigation__label {
+  font-size: 32px;
+}
+.react-calendar__tile {
+  height: 70px;
 }
 
 .react-calendar__month-view__weekdays__weekday {
-  color: rgba(106, 135, 127, 1);
-  font-weight: 400;
-  font-style: normal;
+  font-size: 16px;
+  color: rgb(15, 70, 15);
+  text-align: center;
 }
 
 .react-calendar__tile--active {
@@ -50,14 +62,7 @@ form {
 
 .react-calendar__tile,
 .react-calendar__month-view__days__day {
-  font-size: 18px;
-  color: rgba(106, 135, 127, 1);
-}
-
-/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .react-calendar,
-  .form {
-    width: 100%;
-  }
+  color: rgb(61, 77, 72);
+  text-align: center;
+  font-size: larger;
 }

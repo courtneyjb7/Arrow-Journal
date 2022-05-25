@@ -79,3 +79,23 @@ function deleteDumpById(id) {
     }
   }
 }
+
+app.put("/dumps/:id", (req, res) => {
+  const id = req.params.id;
+  const dumpToUpdate = req.body;
+  const result = editDumpById(id, dumpToUpdate);
+
+  if (result === undefined || result.length === 0) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.status(201).send(result);
+  }
+});
+
+function editDumpById(id, dumpToUpdate) {
+  const updatedDump = findDumpById(id);
+  if (updatedDump !== undefined) {
+    updatedDump.content = dumpToUpdate.content;
+  }
+  return updatedDump;
+}
