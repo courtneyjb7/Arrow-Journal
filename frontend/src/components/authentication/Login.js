@@ -41,10 +41,19 @@ function Login() {
       fire
         .auth()
         .signInWithEmailAndPassword(email, pw)
-        .then(() => {
+        .then((user) => {
           console.log("Authentication submitted!");
+          console.log(user);
           setformatErrorMessage("");
-          navigate(`/monthly`);
+          console.log(
+            user.user._delegate.email,
+            user.user._delegate.displayName
+          );
+          const userInfo = {
+            name: user.user._delegate.displayName,
+            email: user.user._delegate.email,
+          };
+          navigate("/monthly", { state: userInfo }); //successful login here!!
         })
         .catch(function (error) {
           var errorCode = error.code;

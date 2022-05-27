@@ -15,7 +15,7 @@ function StartPage() {
 
   return (
     <Box>
-      <Box w="100%" h="350px" bgColor="#c0ac77">
+      <Box w="100%" h="400px" bgColor="#6a877f">
         <Stack pt="8px" align="center">
           <Text fontSize="5xl" color="white">
             Welcome To
@@ -27,7 +27,7 @@ function StartPage() {
         </Stack>
       </Box>
 
-      <Box w="100%" h="650px" bgColor="#dbc58a">
+      <Box w="100%" h="650px" bgColor="white">
         <Stack pt="100px" align="center">
           <Button
             bgColor="#6a877f"

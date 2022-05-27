@@ -26,8 +26,6 @@ function SignUp() {
   let navigate = useNavigate();
 
   function submit() {
-    // console.log(`Submitted: ${name}, ${email}, ${pw}`);
-
     if (pw === "") {
       setpwEmpty(true);
       setformatErrorMessage("Empty field(s)");
@@ -50,9 +48,18 @@ function SignUp() {
       fire
         .auth()
         .createUserWithEmailAndPassword(email, pw)
-        .then(() => {
+        .then((currentUser) => {
           console.log("Authentication submitted!");
           setformatErrorMessage("");
+
+          // set displayName for new user
+          const info = {
+            displayName: name,
+            photURL: null,
+          };
+
+          fire.auth().currentUser.updateProfile(info);
+
           navigate(`/monthly`);
         })
         .catch(function (error) {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Calendar from "react-calendar";
 import "./Monthly.css";
 import axios from "axios";
 import {
+  Stack,
   FormControl,
   FormLabel,
   Textarea,
@@ -23,11 +24,14 @@ import {
   EditableTextarea,
   Image,
 } from "@chakra-ui/react";
-
 import { CheckIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { Avatar, AvatarGroup } from "@chakra-ui/react";
 
 function Monthly() {
+  const { state } = useLocation();
   const [dumps, setDumps] = useState([]);
+
+  console.log(state);
 
   function editOneDump(index, dumpToUpdate) {
     const updatedDump = makePutCall(dumps[index], dumpToUpdate);
@@ -130,6 +134,8 @@ function Monthly() {
 
 function WelcomeMessage() {
   var today = new Date();
+  const { state } = useLocation();
+  const navigate = useNavigate();
 
   let days = {
     0: "Sunday",
@@ -156,11 +162,20 @@ function WelcomeMessage() {
     11: "December",
   };
 
+  function goToProfile() {
+    navigate("/profile", { state: state });
+  }
+  const first = state.name.split(" ")[0];
   return (
-    <Heading className="welcome">
-      Hi, BJ Klingenberg! Today is {days[today.getDay()]},{" "}
-      {months[today.getMonth()]} {today.getDate()} {today.getFullYear()}.
-    </Heading>
+    <Stack spacing={8} direction="row">
+      <Heading className="welcome">
+        Hi, {first}! Today is {days[today.getDay()]}, {months[today.getMonth()]}{" "}
+        {today.getDate()} {today.getFullYear()}.
+      </Heading>
+      <AvatarGroup spacing="1rem">
+        <Avatar bg="#6A877F" onClick={goToProfile} _hover={{ bg: "#d08a78" }} />
+      </AvatarGroup>
+    </Stack>
   );
 }
 

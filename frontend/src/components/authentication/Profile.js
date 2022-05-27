@@ -1,11 +1,18 @@
 import "./SignUp.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Button, Stack, Heading, Text } from "@chakra-ui/react";
+import { useNavigate, useLocation } from "react-router-dom";
 import React from "react";
 import logo from "../../Arrow.png";
 
 function Profile(props) {
-  var first = props.name.split(" ")[0];
+  const { state } = useLocation();
+  const first = state.name.split(" ")[0];
+  let navigate = useNavigate();
+
+  function back() {
+    navigate("/monthly", { state: state });
+  }
   return (
     <ChakraProvider>
       <div className="SignUp">
@@ -16,16 +23,20 @@ function Profile(props) {
             <Heading color="#6A877F" fontSize="xl">
               Name
             </Heading>
-            <Text mt={4}>{props.name}</Text>
+            <Text mt={4}>{state.name}</Text>
             <Heading color="#6A877F" fontSize="xl">
               Email
             </Heading>
-            <Text mt={4}>{props.email}</Text>
+            <Text mt={4}>{state.email}</Text>
             <br />
-            <Button color="white" w="100px" bg="#6A877F" left="70px">
-              edit
-            </Button>
-            <Button color="white" bg="#6A877F" w="100px" right="50px">
+            {/* <Button color='white'  w='100px' bg='#6A877F' left='70px'>edit</Button>     */}
+            <Button
+              color="white"
+              bg="#6A877F"
+              w="100px"
+              right="50px"
+              onClick={back}
+            >
               back
             </Button>
           </Stack>
