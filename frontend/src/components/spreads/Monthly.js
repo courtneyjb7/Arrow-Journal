@@ -182,9 +182,12 @@ function WelcomeMessage() {
 function MonthlyCalendar() {
   const [date, onChange] = useState(new Date());
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   function routeToDaily(props) {
-    navigate("/daily", { state: { date: props } });
+    navigate("/daily", {
+      state: { date: props, email: state.email, name: state.name },
+    });
   }
 
   return (

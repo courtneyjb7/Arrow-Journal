@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
   FormLabel,
   FormControl,
   Button,
+  Text,
   IconButton,
   Textarea,
   Flex,
@@ -24,45 +25,16 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 function JournalEntry(props) {
-  var days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  var months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
-  var today = props.date;
-  var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  var day = days[today.getDay()];
-  var month = months[today.getMonth()];
-  today = mm + "/" + dd;
-
+  const navigate = useNavigate();
   function EntryHeader() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
     return (
       <Flex>
+        <Spacer />
         <Box p="4">
           <Heading>
-            {day}, {month} {dd}
+            <Text fontSize={"6xl"}>{props.pageType}</Text>
           </Heading>
         </Box>
         <Spacer />
@@ -84,14 +56,24 @@ function JournalEntry(props) {
             <AlertDialogOverlay />
 
             <AlertDialogContent>
-              <AlertDialogHeader>Done Journaling?</AlertDialogHeader>
+              <AlertDialogHeader>
+                Done Journaling? Save Before Exiting
+              </AlertDialogHeader>
               <AlertDialogCloseButton />
 
               <AlertDialogFooter>
                 <Button ref={cancelRef} onClick={onClose}>
                   No
                 </Button>
-                <Button colorScheme="red" ml={3}>
+                <Button
+                  colorScheme="red"
+                  ml={3}
+                  onClick={() =>
+                    navigate("/monthly", {
+                      state: { name: props.name, email: props.email },
+                    })
+                  }
+                >
                   Yes
                 </Button>
               </AlertDialogFooter>
@@ -148,56 +130,76 @@ function JournalEntry(props) {
     }
 
     return (
-      <form onSubmit={submitForm}>
-        <FormControl>
-          <FormLabel htmlFor="prompt1">{props.titles[0]}</FormLabel>
-          <Textarea
-            id="prompt1"
-            name="prompt1"
-            onChange={handleChange}
-            placeholder={props.placeholders[0]}
-          />
-          <Grid templateColumns="repeat(2, 1fr)">
-            <Box>
-              <FormLabel htmlFor="prompt2">{props.titles[1]}</FormLabel>
-              <Textarea
-                id="prompt2"
-                name="prompt2"
-                onChange={handleChange}
-                placeholder={props.placeholders[1]}
-              />
-            </Box>
+      <Flex>
+        <Spacer></Spacer>
+        <form onSubmit={submitForm}>
+          <FormControl>
+            <FormLabel htmlFor="prompt1">
+              <Heading>{props.titles[0]}</Heading>
+            </FormLabel>
+            <Textarea
+              id="prompt1"
+              name="prompt1"
+              onChange={handleChange}
+              height={"200px"}
+              width={"1000px"}
+              placeholder={props.placeholders[0]}
+            />
+            <Grid templateColumns="repeat(2, 1fr)">
+              <Box>
+                <FormLabel htmlFor="prompt2">
+                  <Heading>{props.titles[1]}</Heading>
+                </FormLabel>
+                <Textarea
+                  id="prompt2"
+                  name="prompt2"
+                  height={"200px"}
+                  width={"500px"}
+                  onChange={handleChange}
+                  placeholder={props.placeholders[1]}
+                />
+              </Box>
 
-            <Box>
-              <FormLabel htmlFor="prompt3">{props.titles[2]}</FormLabel>
-              <Textarea
-                id="prompt3"
-                name="prompt3"
-                onChange={handleChange}
-                placeholder={props.placeholders[2]}
-              />
-            </Box>
-          </Grid>
-          <FormLabel htmlFor="prompt4">{props.titles[3]}</FormLabel>
-          <Textarea
-            id="prompt4"
-            name="prompt4"
-            onChange={handleChange}
-            placeholder={props.placeholders[3]}
-          />
-        </FormControl>
-        <Button mt={4} colorScheme="teal" type="submit">
-          Save
-        </Button>
-      </form>
+              <Box>
+                <FormLabel htmlFor="prompt3">
+                  <Heading>{props.titles[2]}</Heading>
+                </FormLabel>
+                <Textarea
+                  id="prompt3"
+                  name="prompt3"
+                  height={"200px"}
+                  width={"500px"}
+                  onChange={handleChange}
+                  placeholder={props.placeholders[2]}
+                />
+              </Box>
+            </Grid>
+            <FormLabel htmlFor="prompt4">
+              <Heading>{props.titles[3]}</Heading>
+            </FormLabel>
+            <Textarea
+              id="prompt4"
+              name="prompt4"
+              height={"200px"}
+              width={"1000px"}
+              onChange={handleChange}
+              placeholder={props.placeholders[3]}
+            />
+          </FormControl>
+          <Button mt={4} colorScheme="teal" type="submit">
+            Save
+          </Button>
+        </form>
+        <Spacer></Spacer>
+      </Flex>
     );
   }
   return (
-    <div>
+    <Box>
       <EntryHeader></EntryHeader>
 
       <EntryForm></EntryForm>
-    </div>
+    </Box>
   );
 }
 
