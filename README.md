@@ -1,6 +1,18 @@
 arrow-journal
 CSC 307 Class Project. A journalling app.`
 
+## Collaborators
+Veronica Guzman
+Divya Satrawada
+Bella White
+Courtney Barber
+
+## About
+For any person who wants to be more introspective and begin journaling. Arrow Journal is a bullet journaling app that prompts the user to help them write journal entries and track their life through a mood tracking calendar, organized journal entries, and random prompts to answer every day. 
+
+## UI Prototype
+https://www.figma.com/file/MEbbZ0bx7PYjQ9SvnAmzwX/UI-Prototype%2FStoryboard?node-id=0%3A1
+
 ## Style Guide 
 
 Curly braces should be on same line [Kernighan and Ritchie style]
@@ -35,3 +47,20 @@ Run the following command in the frontend and backend directories:
 npm install --save husky lint-staged prettier
 ```
 
+## Environment Setup
+
+Clone project
+
+Install npm
+
+Run following command in backend and front end folders: 
+
+```npm install -i```
+
+Open a backend folder in terminal and run:
+
+```npm run dev```
+
+Then open frontend folder in terminal and run:
+
+```npm start``
