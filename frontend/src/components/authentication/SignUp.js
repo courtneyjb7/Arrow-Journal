@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import logo from "../../Arrow.png";
 import fire from "../../fire.js";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -60,7 +61,11 @@ function SignUp() {
 
           fire.auth().currentUser.updateProfile(info);
 
-          navigate(`/monthly`);
+          //create user in Mongo DB
+          var userInfo = { name: name, email: email };
+          createUser(userInfo);
+
+          navigate(`/monthly`, { state: userInfo });
         })
         .catch(function (error) {
           var errorCode = error.code;
@@ -68,6 +73,16 @@ function SignUp() {
           console.log("Error: ", errorCode, ": ", errorMessage);
           setformatErrorMessage(removeFirstWord(errorMessage));
         });
+    }
+  }
+
+  async function createUser(user) {
+    try {
+      const response = await axios.post("http://localhost:5000/users", user);
+      return response;
+    } catch (error) {
+      console.log(error);
+      return false;
     }
   }
 
@@ -84,7 +99,7 @@ function SignUp() {
           <Stack spacing={8} direction="column">
             <Stack spacing={5} direction="column">
               <FormControl isInvalid={nameEmpty}>
-                <FormLabel htmlFor="name" color="#6A877F">
+                <FormLabel htmlFor="name" color="black">
                   Name
                 </FormLabel>
                 <Input
@@ -98,7 +113,7 @@ function SignUp() {
                 />
               </FormControl>
               <FormControl isInvalid={emailEmpty}>
-                <FormLabel htmlFor="email" color="#6A877F">
+                <FormLabel htmlFor="email" color="black">
                   Email
                 </FormLabel>
                 <Input
@@ -119,7 +134,7 @@ function SignUp() {
               ></PasswordInput>
               <Button
                 color="white"
-                bg="#6A877F"
+                bg="black"
                 w="100px"
                 type="submit"
                 onClick={() => submit()}
@@ -129,7 +144,7 @@ function SignUp() {
             </Stack>
             <Button
               color="white"
-              bg="#6A877F"
+              bg="black"
               w="100px"
               right="50px"
               onClick={() => back()}
@@ -150,7 +165,7 @@ function PasswordInput(props) {
   return (
     <InputGroup size="md">
       <FormControl isInvalid={props.pwEmpty}>
-        <FormLabel htmlFor="pw" color="#6A877F">
+        <FormLabel htmlFor="pw" color="black">
           Password
         </FormLabel>
         <Input

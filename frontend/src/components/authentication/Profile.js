@@ -20,19 +20,19 @@ function Profile(props) {
         <header className="SignUp-header">
           <p className="SignUp-title">Hi, {first}!</p>
           <Stack spacing={8}>
-            <Heading color="#6A877F" fontSize="xl">
+            <Heading color="BLACK" fontSize="xl">
               Name
             </Heading>
             <Text mt={4}>{state.name}</Text>
-            <Heading color="#6A877F" fontSize="xl">
+            <Heading color="BLACK" fontSize="xl">
               Email
             </Heading>
             <Text mt={4}>{state.email}</Text>
             <br />
-            {/* <Button color='white'  w='100px' bg='#6A877F' left='70px'>edit</Button>     */}
+            {/* <Button color='white'  w='100px' bg='BLACK' left='70px'>edit</Button>     */}
             <Button
               color="white"
-              bg="#6A877F"
+              bg="BLACK"
               w="100px"
               right="50px"
               onClick={back}

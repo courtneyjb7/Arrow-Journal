@@ -1,17 +1,12 @@
 import React from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FormLabel,
-  FormControl,
   Button,
   Text,
   IconButton,
-  Textarea,
   Flex,
   Spacer,
   Box,
-  Grid,
   Heading,
   AlertDialog,
   AlertDialogFooter,
@@ -21,11 +16,12 @@ import {
   AlertDialogCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
-
 import { CloseIcon } from "@chakra-ui/icons";
+import axios from "axios";
 
 function JournalEntry(props) {
   const navigate = useNavigate();
+
   function EntryHeader() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const cancelRef = React.useRef();
@@ -65,15 +61,7 @@ function JournalEntry(props) {
                 <Button ref={cancelRef} onClick={onClose}>
                   No
                 </Button>
-                <Button
-                  colorScheme="red"
-                  ml={3}
-                  onClick={() =>
-                    navigate("/monthly", {
-                      state: { name: props.name, email: props.email },
-                    })
-                  }
-                >
+                <Button colorScheme="red" ml={3} onClick={() => makePostCall()}>
                   Yes
                 </Button>
               </AlertDialogFooter>
@@ -84,121 +72,41 @@ function JournalEntry(props) {
     );
   }
 
-  function EntryForm() {
-    const [entry, setEntry] = useState({
-      prompt1: "",
-      prompt2: "",
-      prompt3: "",
-      prompt4: "",
-    });
+  async function makePostCall() {
+    // const navigate = useNavigate();
+    try {
+      const fullDate = props.date;
+      const month = (parseInt(fullDate.getMonth(), 10) + 1).toString(); //Jan is 0
+      const dateStr =
+        month + "-" + fullDate.getDate() + "-" + fullDate.getFullYear(); //mm-dd-yyyy
 
-    function handleChange(event) {
-      const { name, value } = event.target;
-      if (name === "prompt1")
-        setEntry({
-          prompt1: value,
-          prompt2: entry["prompt2"],
-          prompt3: entry["prompt3"],
-          prompt4: entry["prompt4"],
-        });
-      else if (name === "prompt2")
-        setEntry({
-          prompt1: entry["prompt1"],
-          prompt2: value,
-          prompt3: entry["prompt3"],
-          prompt4: entry["prompt4"],
-        });
-      else if (name === "prompt3")
-        setEntry({
-          prompt1: entry["prompt1"],
-          prompt2: entry["prompt2"],
-          prompt3: value,
-          prompt4: entry["prompt4"],
-        });
-      else
-        setEntry({
-          prompt1: entry["prompt1"],
-          prompt2: entry["prompt2"],
-          prompt3: entry["prompt3"],
-          prompt4: value,
-        });
+      const sumbitEntry = {
+        date: dateStr,
+        entry_type: "Personal",
+        mood: props.entry.mood,
+        moodColor: props.entry.moodColor,
+        moodIcon: props.entry.moodIcon,
+        free_write_response: props.entry.PersonalPrompt1,
+        positives_response: props.entry.PersonalPrompt2,
+        goals_response: props.entry.PersonalPrompt3,
+        random_answer: props.entry.PersonalPrompt4,
+      };
+      const response = await axios.post(
+        `http://localhost:5000/entry/${props.email}`,
+        sumbitEntry
+      );
+      console.log(response);
+      navigate("/monthly", { state: { name: props.name, email: props.email } });
+    } catch (error) {
+      console.log(error);
+      return false;
     }
-
-    function submitForm() {
-      props.handleSubmit(entry);
-      setEntry({ prompt1: "", prompt2: "", prompt3: "", prompt4: "" });
-    }
-
-    return (
-      <Flex>
-        <Spacer></Spacer>
-        <form onSubmit={submitForm}>
-          <FormControl>
-            <FormLabel htmlFor="prompt1">
-              <Heading>{props.titles[0]}</Heading>
-            </FormLabel>
-            <Textarea
-              id="prompt1"
-              name="prompt1"
-              onChange={handleChange}
-              height={"200px"}
-              width={"1000px"}
-              placeholder={props.placeholders[0]}
-            />
-            <Grid templateColumns="repeat(2, 1fr)">
-              <Box>
-                <FormLabel htmlFor="prompt2">
-                  <Heading>{props.titles[1]}</Heading>
-                </FormLabel>
-                <Textarea
-                  id="prompt2"
-                  name="prompt2"
-                  height={"200px"}
-                  width={"500px"}
-                  onChange={handleChange}
-                  placeholder={props.placeholders[1]}
-                />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="prompt3">
-                  <Heading>{props.titles[2]}</Heading>
-                </FormLabel>
-                <Textarea
-                  id="prompt3"
-                  name="prompt3"
-                  height={"200px"}
-                  width={"500px"}
-                  onChange={handleChange}
-                  placeholder={props.placeholders[2]}
-                />
-              </Box>
-            </Grid>
-            <FormLabel htmlFor="prompt4">
-              <Heading>{props.titles[3]}</Heading>
-            </FormLabel>
-            <Textarea
-              id="prompt4"
-              name="prompt4"
-              height={"200px"}
-              width={"1000px"}
-              onChange={handleChange}
-              placeholder={props.placeholders[3]}
-            />
-          </FormControl>
-          <Button mt={4} colorScheme="teal" type="submit">
-            Save
-          </Button>
-        </form>
-        <Spacer></Spacer>
-      </Flex>
-    );
   }
+
   return (
     <Box>
       <EntryHeader></EntryHeader>
-
-      <EntryForm></EntryForm>
+      {props.entryform()}
     </Box>
   );
 }

@@ -87,16 +87,24 @@ const Header = (props) => {
                 <Menu iconShape="square">
                   <MenuButton
                     as={Button}
-                    leftIcon={props.mood[2]}
-                    colorScheme={props.mood[1]}
+                    leftIcon={props.entry.moodIcon}
+                    colorScheme={props.entry.moodColor}
                   >
-                    {props.mood[0]}
+                    {props.entry.mood}
                   </MenuButton>
                   <MenuList>
                     <MenuItem
                       icon={<FiSun />}
                       onClick={() =>
-                        props.setMood(["Great", "purple", <FiSun />])
+                        props.setEntry({
+                          PersonalPrompt1: props.entry["PersonalPrompt1"],
+                          PersonalPrompt2: props.entry["PersonalPrompt2"],
+                          PersonalPrompt3: props.entry["PersonalPrompt3"],
+                          PersonalPrompt4: props.entry["PersonalPrompt4"],
+                          mood: "Great",
+                          moodColor: "purple",
+                          moodIcon: <FiSun />,
+                        })
                       }
                     >
                       Great
@@ -104,20 +112,48 @@ const Header = (props) => {
                     <MenuItem
                       icon={<FiSmile />}
                       onClick={() =>
-                        props.setMood(["Good", "green", <FiSmile />])
+                        props.setEntry({
+                          PersonalPrompt1: props.entry["PersonalPrompt1"],
+                          PersonalPrompt2: props.entry["PersonalPrompt2"],
+                          PersonalPrompt3: props.entry["PersonalPrompt3"],
+                          PersonalPrompt4: props.entry["PersonalPrompt4"],
+                          mood: "Good",
+                          moodColor: "green",
+                          moodIcon: <FiSmile />,
+                        })
                       }
                     >
                       Good
                     </MenuItem>
                     <MenuItem
                       icon={<FiMeh />}
-                      onClick={() => props.setMood(["Ok", "yellow", <FiMeh />])}
+                      onClick={() =>
+                        props.setEntry({
+                          PersonalPrompt1: props.entry["PersonalPrompt1"],
+                          PersonalPrompt2: props.entry["PersonalPrompt2"],
+                          PersonalPrompt3: props.entry["PersonalPrompt3"],
+                          PersonalPrompt4: props.entry["PersonalPrompt4"],
+                          mood: "Ok",
+                          moodColor: "yellow",
+                          moodIcon: <FiMeh />,
+                        })
+                      }
                     >
                       Ok
                     </MenuItem>
                     <MenuItem
                       icon={<FiFrown />}
-                      onClick={() => props.setMood(["Bad", "red", <FiFrown />])}
+                      onClick={() =>
+                        props.setEntry({
+                          PersonalPrompt1: props.entry["PersonalPrompt1"],
+                          PersonalPrompt2: props.entry["PersonalPrompt2"],
+                          PersonalPrompt3: props.entry["PersonalPrompt3"],
+                          PersonalPrompt4: props.entry["PersonalPrompt4"],
+                          mood: "Bad",
+                          moodColor: "red",
+                          moodIcon: <FiFrown />,
+                        })
+                      }
                     >
                       Bad
                     </MenuItem>
@@ -130,16 +166,6 @@ const Header = (props) => {
                   <Box>
                     <Button onClick={() => props.setPage("Personal Page")}>
                       Personal
-                    </Button>
-                  </Box>
-                  <Box>
-                    <Button onClick={() => props.setPage("Academic Page")}>
-                      School
-                    </Button>
-                  </Box>
-                  <Box>
-                    <Button onClick={() => props.setPage("Work Page")}>
-                      Work
                     </Button>
                   </Box>
                 </VStack>

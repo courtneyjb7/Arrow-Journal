@@ -18,6 +18,8 @@ import NavItem from "./NavItem";
 
 export default function Sidebar() {
   const [mood, setMood] = useState(["grey", "Select Mood"]);
+  // exports.mood = mood;
+  // exports.setMood = setMood;
   return (
     <Flex
       pos="sticky"
