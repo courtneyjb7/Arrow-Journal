@@ -38,6 +38,13 @@ async function addUser(user) {
   }
 }
 
+async function deleteUser(email){
+  
+  const result = await userModel.deleteOne({ email: email }); 
+  console.log(result);
+  return result;
+}
+
 async function findUserByEmail(email) {
   return await userModel.find({ email: email });
 }
@@ -220,3 +227,4 @@ exports.deleteDump = deleteDump;
 exports.fetchAllDumps = fetchAllDumps;
 exports.fetchAllEntries = fetchAllEntries;
 exports.editOneDump = editOneDump;
+exports.deleteUser = deleteUser;

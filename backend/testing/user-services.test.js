@@ -202,3 +202,9 @@ test("Edit Dump -- fail", async () => {
 
   expect(result.acknowledged).toBeFalsy();
 })
+
+test("Delete User -- pass", async () => {
+  const email = "fake@email.com";
+  const result = await userServices.deleteUser(email);
+  expect(result.acknowledged).toBeTruthy();
+})
