@@ -43,7 +43,6 @@ function Login() {
         .signInWithEmailAndPassword(email, pw)
         .then((user) => {
           console.log("Authentication submitted!");
-          console.log(user);
           setformatErrorMessage("");
           console.log(
             user.user._delegate.email,
@@ -77,7 +76,7 @@ function Login() {
           <Stack spacing={8} direction="column">
             <Stack spacing={5} direction="column">
               <FormControl isInvalid={emailEmpty}>
-                <FormLabel htmlFor="email" color="#6A877F">
+                <FormLabel htmlFor="email" color="Black">
                   Email
                 </FormLabel>
                 <Input
@@ -98,7 +97,7 @@ function Login() {
               ></PasswordInput>
               <Button
                 color="white"
-                bg="#6A877F"
+                bg="black"
                 w="100px"
                 type="submit"
                 onClick={() => submit()}
@@ -108,7 +107,7 @@ function Login() {
             </Stack>
             <Button
               color="white"
-              bg="#6A877F"
+              bg="black"
               w="100px"
               right="50px"
               onClick={() => back()}
@@ -129,7 +128,7 @@ function PasswordInput(props) {
   return (
     <InputGroup size="md">
       <FormControl isInvalid={props.pwEmpty}>
-        <FormLabel htmlFor="pw" color="#6A877F">
+        <FormLabel htmlFor="pw" color="black">
           Password
         </FormLabel>
         <Input
@@ -147,7 +146,7 @@ function PasswordInput(props) {
           </Button>
         </InputRightElement>
         {/* <FormHelperText>Password must be at least 6 characters</FormHelperText> */}
-        <FormHelperText color="#B35864" maxWidth={400}>
+        <FormHelperText color="black" maxWidth={400}>
           {props.formatErrorMessage}
         </FormHelperText>
       </FormControl>

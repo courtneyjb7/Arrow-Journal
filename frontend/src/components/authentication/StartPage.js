@@ -15,13 +15,13 @@ function StartPage() {
 
   return (
     <Box>
-      <Box w="100%" h="400px" bgColor="#6a877f">
+      <Box w="100%" h="400px" bgColor="white">
         <Stack pt="8px" align="center">
-          <Text fontSize="5xl" color="white">
+          <Text fontSize="5xl" color="black">
             Welcome To
           </Text>
           <Image src="Arrow.png" alt="Arrow Journal" />
-          <Text fontSize="5xl" color="white">
+          <Text fontSize="5xl" color="black">
             Journal!
           </Text>
         </Stack>
@@ -30,9 +30,9 @@ function StartPage() {
       <Box w="100%" h="650px" bgColor="white">
         <Stack pt="100px" align="center">
           <Button
-            bgColor="#6a877f"
+            bgColor="black"
             color="white"
-            width="600px"
+            width="500px"
             height="80px"
             fontSize="25px"
             onClick={navigateToLogin}
@@ -44,9 +44,9 @@ function StartPage() {
 
         <Stack pt="50px" align="center">
           <Button
-            bgColor="#6a877f"
+            bgColor="black"
             color="white"
-            width="600px"
+            width="500px"
             height="80px"
             fontSize="25px"
             onClick={navigateToSignUp}

@@ -24,14 +24,19 @@ import {
   EditableTextarea,
   Image,
 } from "@chakra-ui/react";
+import fire from "../../fire.js";
 import { CheckIcon, EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Avatar, AvatarGroup } from "@chakra-ui/react";
 
 function Monthly() {
-  const { state } = useLocation();
   const [dumps, setDumps] = useState([]);
 
-  console.log(state);
+  function checkUser() {
+    const user = fire.auth().currentUser;
+    return user.email;
+  }
+
+  const email = checkUser();
 
   function editOneDump(index, dumpToUpdate) {
     const updatedDump = makePutCall(dumps[index], dumpToUpdate);
@@ -42,18 +47,23 @@ function Monthly() {
   }
 
   function removeOneDump(index) {
-    makeDeleteCall(dumps[index]);
-
-    const updated = dumps.filter((dump, i) => {
-      return i !== index;
+    const dumpId = dumps[index]._id;
+    makeDeleteCall(dumpId).then((result) => {
+      if (result.status === 204) {
+        const updated = dumps.filter((dump, i) => {
+          return i !== index;
+        });
+        setDumps(updated);
+      }
     });
-
-    setDumps(updated);
   }
 
-  async function makePostCall(dump) {
+  async function makePostCall(dump, email) {
     try {
-      const response = await axios.post("http://localhost:5000/dumps", dump);
+      const response = await axios.post(
+        `http://localhost:5000/dumps/${email}`,
+        dump
+      );
       return response;
     } catch (error) {
       console.log(error);
@@ -64,7 +74,7 @@ function Monthly() {
   async function makePutCall(dump, dumpToUpdate) {
     try {
       const response = await axios.put(
-        `http://localhost:5000/dumps/${dump.id}`,
+        `http://localhost:5000/dumps/${email}/${dump._id}`,
         dumpToUpdate
       );
       return response;
@@ -74,10 +84,10 @@ function Monthly() {
     }
   }
 
-  async function makeDeleteCall(dump) {
+  async function makeDeleteCall(dumpId) {
     try {
       const response = await axios.delete(
-        `http://localhost:5000/dumps/${dump.id}`
+        `http://localhost:5000/dumps/${email}/${dumpId}`
       );
       return response;
     } catch (error) {
@@ -87,8 +97,7 @@ function Monthly() {
   }
 
   function updateBrainDump(dump) {
-    makePostCall(dump).then((result) => {
-      console.log(result);
+    makePostCall(dump, email).then((result) => {
       if (result && result.status === 201) {
         setDumps([...dumps, result.data]);
       }
@@ -97,8 +106,8 @@ function Monthly() {
 
   async function fetchAll() {
     try {
-      const response = await axios.get("http://localhost:5000/dumps");
-      return response.data.dumps_list;
+      const response = await axios.get(`http://localhost:5000/dumps/${email}`);
+      return response.data;
     } catch (error) {
       console.log(error);
       return false;
@@ -107,11 +116,9 @@ function Monthly() {
 
   useEffect(() => {
     fetchAll().then((result) => {
-      if (result) {
-        setDumps(result);
-      }
+      if (result) setDumps(result);
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <VStack className="monthly">
@@ -173,7 +180,7 @@ function WelcomeMessage() {
         {today.getDate()} {today.getFullYear()}.
       </Heading>
       <AvatarGroup spacing="1rem">
-        <Avatar bg="#6A877F" onClick={goToProfile} _hover={{ bg: "#d08a78" }} />
+        <Avatar bg="BLACK" onClick={goToProfile} _hover={{ bg: "#3082ce" }} />
       </AvatarGroup>
     </Stack>
   );
@@ -183,6 +190,7 @@ function MonthlyCalendar() {
   const [date, onChange] = useState(new Date());
   const navigate = useNavigate();
   const { state } = useLocation();
+  const [entries, setEntries] = useState([]);
 
   function routeToDaily(props) {
     navigate("/daily", {
@@ -190,8 +198,50 @@ function MonthlyCalendar() {
     });
   }
 
+  async function fetchAll() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/entry/${state.email}`
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  useEffect(() => {
+    fetchAll().then((result) => {
+      if (result) setEntries(result);
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function getMoods(d, v) {
+    for (let i = 0; i < entries.length; i++) {
+      let dateParts = entries[i].date.split("-");
+      let parsedDate = new Date(dateParts[2], dateParts[0] - 1, dateParts[1]);
+
+      if (v === "month") {
+        if (
+          d.getMonth() === parsedDate.getMonth() &&
+          d.getDate() === parsedDate.getDate() &&
+          d.getYear() === parsedDate.getYear()
+        ) {
+          return entries[i].mood;
+        }
+      }
+    }
+
+    return null;
+  }
+
   return (
-    <Calendar onChange={onChange} value={date} onClickDay={routeToDaily} />
+    <Calendar
+      onChange={onChange}
+      value={date}
+      onClickDay={routeToDaily}
+      tileClassName={({ date, view }) => getMoods(date, view)}
+    />
   );
 }
 
@@ -319,9 +369,11 @@ function BrainDump(props) {
             <EditableControls removeDump={props.removeDump} index={index} />
           </Editable>
         </Td>
+        <Td>{row.id}</Td>
       </Tr>
     );
   });
+
   return (
     <Table>
       <Tbody>{rows}</Tbody>
