@@ -33,7 +33,7 @@
   "homepage": "http://courtneyjb7.github.io/Arrow-Journal",
   "scripts": {
     "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build",  
+    "deploy" : "cd .. && cd backend && npm run dev && cd .. && cd frontend && gh-pages -d build",  
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "prettier --check ./src",
