@@ -9,7 +9,8 @@ const port = 5000;
 const cors = require("cors");
 const { resolveConfigFile } = require("prettier");
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: "https://courneyjb7.github.io" }));
 app.use(express.json());
 
 app.get("/entry/:email", async (req, res) => {
